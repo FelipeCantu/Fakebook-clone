@@ -13,10 +13,16 @@ export default NextAuth({
       token: "https://graph.facebook.com/oauth/access_token",
     }),
   ],
+  jwt: {
+    encryption: true,
+  },
+  secret: process.env.secret,
   callbacks: {
-    async session({ session, token, user }) {
-      session.accessToken = token.accessToken
-      return session
-    }
+    async jwt(token, account) {
+      if (account?.accessToken) {
+        token.accessToken = account.accessToken
+      }
+      return token
+    },
   }
 });
