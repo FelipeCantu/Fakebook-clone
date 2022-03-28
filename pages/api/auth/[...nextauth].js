@@ -1,28 +1,29 @@
 import NextAuth from 'next-auth'
-import FacebookProvider from 'next-auth/providers/facebook'
+import Providers from 'next-auth/providers'
 
-export default NextAuth({
-  providers: [
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-      id: "facebook",
-      name: "Facebook",
-      type: "oauth",
-      authorization: "https://www.facebook.com/v11.0/dialog/oauth?scope=email",
-      token: "https://graph.facebook.com/oauth/access_token",
-    }),
-  ],
-  jwt: {
-    encryption: true,
-  },
-  secret: process.env.secret,
-  callbacks: {
-    async jwt(token, account) {
-      if (account?.accessToken) {
-        token.accessToken = account.accessToken
-      }
-      return token
-    },
-  }
-});
+const options = {
+    Providers: [
+        Providers.GitHub({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
+        }),
+        Providers.Twitter({
+            clientId: process.env.TWITTER_ID,
+            clientSecret: process.env.TWITTER_SERCRET,
+        }),
+        // Providers.Email({
+        //     server: {
+        //         host: '',
+        //         port: '',
+        //         auth: {
+        //             user: '',
+        //             pass: ''
+        //         }
+        //     },
+        //     form: '',
+        // })
+        
+    ]
+}
+
+export default (req, res) => NextAuth(req, res, options)

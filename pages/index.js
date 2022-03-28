@@ -1,32 +1,37 @@
-import { getSession } from 'next-auth/react'
 import Head from 'next/head'
-import Header from '../components/Header'
-import Login from '../components/Login'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import React from 'react'
+import Link from 'next/link'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
+export default function Home() {
+  const [session, loading] = useSession() 
 
-export default function Home({ session }) {
-  if (!session) return <Login />
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
-        <title>Alt Facebook</title>
+        <title>Authenticationsior</title>
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
-     <Header />
-     <main>
-       {/* Sidbar */}
-       {/* Feed */}
-       {/* Widgets */}
-     </main>
+      <main className={styles.main}>
+        {!session && (
+          <>
+            Not signed in <br />
+            <button onClick={signIn}>Sign In</button>
+          </>
+        )}
+        {
+          session && (
+            <>
+              Sign In as {session.user.email} <br />
+              <div>Super Dark Secrets are now available to you</div>
+              <button onClick={signOut}>Sign Out</button>
+            </>
+          )
+        }
+      </main>
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context)
-  return {
-    props: {
-      session
-    },
-  }
 }
