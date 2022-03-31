@@ -1,37 +1,24 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Header from '../components/Header'
+import Login from '../components/Login'
 import React from 'react'
-import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/react'
 
 export default function Home() {
-  const [session, loading] = useSession() 
-
+  const { data: session } = useSession()
+  if (!session) return <Login />
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Authenticationsior</title>
-        <link rel='icon' href='/favicon.ico' />
+        <title>Alt Facebook</title>
       </Head>
 
-      <main className={styles.main}>
-        {!session && (
-          <>
-            Not signed in <br />
-            <button onClick={signIn}>Sign In</button>
-          </>
-        )}
-        {
-          session && (
-            <>
-              Sign In as {session.user.email} <br />
-              <div>Super Dark Secrets are now available to you</div>
-              <button onClick={signOut}>Sign Out</button>
-            </>
-          )
-        }
-      </main>
+     <Header />
+     <main>
+       {/* Sidbar */}
+       {/* Feed */}
+       {/* Widgets */}
+     </main>
     </div>
   )
 }
