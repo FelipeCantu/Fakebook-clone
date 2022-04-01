@@ -7,8 +7,9 @@ module.exports = {
   images: {
     domains: [
       'links.papareact.com',
-      'platform-lookaside.fbbx.com',
+      'platform-lookaside.fbsbx.com',
       'firbasestorage.googleapis.com',
+      'avatars.githubusercontent.com',
     ],
   },
 };
